@@ -1,9 +1,10 @@
-package com.hdl.andfixdemo;
+package com.hdl.andfixdemo.base;
 
 import android.app.Application;
 import android.content.pm.PackageManager;
 
 import com.alipay.euler.andfix.patch.PatchManager;
+import com.hdl.andfixdemo.utils.PatchHelper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,9 +15,18 @@ import cn.jpush.android.api.JPushInterface;
  * Created by HDL on 2016/9/8.
  */
 public class MyAppliecation extends Application {
+    private static MyAppliecation instance;
+
+    public static MyAppliecation getInstance() {
+        return instance;
+    }
+
+    private PatchManager patchManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         /**
          * 极光推送设置
          */
@@ -31,18 +41,12 @@ public class MyAppliecation extends Application {
         JPushInterface.setAliasAndTags(getApplicationContext(), null, tag, null);
 
 
-        PatchManager patchManager = new PatchManager(this);
-        patchManager.init(getVersionCode());//current version
+        patchManager = new PatchManager(this);
+        patchManager.init(PatchHelper.getVersionCode(this) + "");//current version
+        patchManager.loadPatch();
     }
 
-    public String getVersionCode() {
-        int versionCode = 1;
-
-        try {
-            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "" + versionCode;
+    public PatchManager getPatchManager() {
+        return patchManager;
     }
 }

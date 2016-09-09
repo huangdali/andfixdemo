@@ -10,9 +10,20 @@
         android:onClick="onRefresh"
         android:text="刷新" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onGetData"
+        android:text="下载补丁" />
+
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="content:" />
+    <TextView
+        android:id="@+id/tv_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="log:" />
 </LinearLayout>
